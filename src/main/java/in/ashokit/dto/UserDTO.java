@@ -13,7 +13,6 @@ public class UserDTO {
 	private String pwd;
 	private String pwdUpdated;
 	private Long phno;
-
 	private Integer countryId;
 	private Integer stateId;
 	private Integer cityId;
