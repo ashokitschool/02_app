@@ -84,11 +84,54 @@ public class UserController {
 		return userService.getCities(stateId);
 	}
 
+	@PostMapping("/register")
+	public String registerUser(@ModelAttribute("user") UserDTO user, Model model) {
+		boolean emailUnique = userService.isEmailUnique(user.getEmail());
+		if (emailUnique) {
+			boolean register = userService.register(user);
+			if (register) {
+				
+				
+				
+				model.addAttribute("smsg", "Registration Success");
+			} else {
+				model.addAttribute("emsg", "Registration Failed");
+			}
+		} else {
+			model.addAttribute("emsg", "Duplicate Email Found");
+		}
+
+		Map<Integer, String> countriesMap = userService.getCountries();
+		model.addAttribute("countries", countriesMap);
+
+		return "register";
+	}
+
+	@PostMapping("/resetPwd")
+	public String resetPwd(@ModelAttribute("resetPwd") ResetPwdDTO resetPwd, Model model) {
+
+		UserDTO login = userService.login(resetPwd.getEmail(), resetPwd.getOldPwd());
+		if (login == null) {
+			model.addAttribute("emsg", "Old Pwd is incorrect");
+			return "resetPwd";
+		}
+
+		if (resetPwd.getNewPwd().equals(resetPwd.getConfirmPwd())) {
+			userService.resetPwd(resetPwd);
+			QuoteResponseDTO quotation = userService.getQuotation();
+			model.addAttribute("quote", quotation);
+			return "dashboard";
+		} else {
+			model.addAttribute("emsg", "New Pwd and Confirm Pwd Not Matching");
+			return "resetPwd";
+		}
+	}
+
+	@GetMapping("/getQuote")
+	public String getQuote(Model model) {
+		QuoteResponseDTO quotation = userService.getQuotation();
+		model.addAttribute("quote", quotation);
+		return "dashboard";
+	}
+
 }
-
-
-
-
-
-
-

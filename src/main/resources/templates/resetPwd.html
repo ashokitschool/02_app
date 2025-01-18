@@ -13,9 +13,9 @@
 
 	<div class="container">
 
-		<h1>Login Here</h1>
+		<h1>Reset Password Here</h1>
 
-		<form th:action="@{/login}" th:object="${user}" method="POST">
+		<form th:action="@{/resetPwd}" th:object="${resetPwd}" method="POST">
 
 			<font color="red">
 				<p th:text="${emsg}"></p>
@@ -25,20 +25,26 @@
 
 				<tr>
 					<td>Email : </td>
-					<td><input type="text" th:field="*{email}" required /></td>
+					<td><input type="text" th:field="*{email}" required readonly /></td>
 				</tr>
 				<tr>
-					<td>Password : </td>
-					<td><input type="password" th:field="*{pwd}" required /></td>
+					<td>Old Password : </td>
+					<td><input type="password" th:field="*{oldPwd}" required /></td>
+				</tr>
+				<tr>
+					<td>New Password : </td>
+					<td><input type="password" th:field="*{newPwd}" required /></td>
+				</tr>
+				<tr>
+					<td>Confirm Password : </td>
+					<td><input type="password" th:field="*{confirmPwd}" required /></td>
 				</tr>
 				<tr>
 					<td> </td>
-					<td><input type="submit" value="Login" /></td>
+					<td><input type="submit" value="Submit" /></td>
 				</tr>
 
 			</table>
-
-			<a href="register">Click Here To Register</a>
 
 		</form>
 

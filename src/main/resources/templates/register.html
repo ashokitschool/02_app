@@ -11,26 +11,42 @@
 	<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
 
 	<script>
-
-
 		$(document).ready(function () {
-
 			$("#countryId").on("change", function () {
-
 				var countryId = $("#countryId").val();
+				$('#stateId').find('option').remove();
+				$('<option>').val('').text('-Select-').appendTo("#stateId");
 
+				$('#cityId').find('option').remove();
+				$('<option>').val('').text('-Select-').appendTo("#cityId");
 
+				$.ajax({
+					type: 'GET',
+					url: '/states/' + countryId,
+					success: function (response) {
+						$.each(response, function (key, value) {
+							$('<option>').val(key).text(value).appendTo("#stateId");
+						});
+					}
+				});
 			});
 
 			$("#stateId").on("change", function () {
-
 				var stateId = $("#stateId").val();
+				$('#cityId').find('option').remove();
+				$('<option>').val('').text('-Select-').appendTo("#cityId");
 
-
+				$.ajax({
+					type: 'GET',
+					url: '/cities/' + stateId,
+					success: function (response) {
+						$.each(response, function (key, value) {
+							$('<option>').val(key).text(value).appendTo("#cityId");
+						});
+					}
+				});
 			});
-
 		});
-
 	</script>
 </head>
 
